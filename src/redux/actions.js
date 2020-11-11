@@ -1,8 +1,7 @@
 import {
     CREATE_POST,
-    FETCH_POSTS,
     HIDE_EMPTY_INPUT_ALERT,
-    HIDE_LOADER,
+    HIDE_LOADER, REQUEST_POSTS,
     SHOW_EMPTY_INPUT_ALERT,
     SHOW_LOADER,
 } from "./types";
@@ -27,22 +26,25 @@ export function hideLoader() {
 }
 
 export function fetchPosts() {
-    return async (dispatch) => {
-        try {
-            dispatch(showLoader());
-            // Заметь, что в конце ссылки метода fetch написано ?_limit=5, что ограничивает количество элементов, приходящих с сервера
-            const response = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=5");
-            const json = await response.json();
-            // Искусственная задержка для красоты :)
-            setTimeout(() => {
-                dispatch({ type: FETCH_POSTS, payload: json });
-                dispatch(hideLoader());
-            }, 500);
-        } catch (error) {
-            dispatch(hideLoader());
-            dispatch(showAlert(error.toString()));
-        }
-    };
+    return {
+        type: REQUEST_POSTS
+    }
+    // return async (dispatch) => {
+    //     try {
+    //         dispatch(showLoader());
+    //         // Заметь, что в конце ссылки метода fetch написано ?_limit=5, что ограничивает количество элементов, приходящих с сервера
+    //         const response = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=5");
+    //         const json = await response.json();
+    //         // Искусственная задержка для красоты :)
+    //         setTimeout(() => {
+    //             dispatch({ type: FETCH_POSTS, payload: json });
+    //             dispatch(hideLoader());
+    //         }, 500);
+    //     } catch (error) {
+    //         dispatch(hideLoader());
+    //         dispatch(showAlert(error.toString()));
+    //     }
+    // };
 }
 
 export function showAlert(text) {
